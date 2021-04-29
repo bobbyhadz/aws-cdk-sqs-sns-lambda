@@ -4,6 +4,8 @@ import {APIGatewayProxyResultV2, SQSEvent} from 'aws-lambda';
 export async function main(event: SQSEvent): Promise<APIGatewayProxyResultV2> {
   // console.log('event 👉', JSON.stringify(event, null, 2));
 
+  // throw new Error('throwing an Error 💥');
+
   const messages = event.Records.map(record => {
     const body = JSON.parse(record.body) as {Subject: string; Message: string};
 
@@ -14,6 +16,6 @@ export async function main(event: SQSEvent): Promise<APIGatewayProxyResultV2> {
 
   return {
     body: JSON.stringify({messages}),
-    statusCode: 2000,
+    statusCode: 200,
   };
 }

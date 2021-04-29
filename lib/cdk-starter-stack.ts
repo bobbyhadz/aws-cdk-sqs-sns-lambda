@@ -30,7 +30,11 @@ export class CdkStarterStack extends cdk.Stack {
 
     // 👇 create queue
     const queue = new sqs.Queue(this, 'sqs-queue', {
-      visibilityTimeout: cdk.Duration.seconds(300),
+      // 👇 set up DLQ
+      deadLetterQueue: {
+        queue: deadLetterQueue,
+        maxReceiveCount: 1,
+      },
     });
 
     // 👇 create sns topic
@@ -46,10 +50,9 @@ export class CdkStarterStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_14_X,
       handler: 'main',
       entry: path.join(__dirname, `/../src/my-lambda/index.ts`),
-      deadLetterQueue,
     });
 
-    // 👇 add sqs queue as event source for lambda
+    // 👇 add sqs queue as event source for Lambda
     myLambda.addEventSource(
       new SqsEventSource(queue, {
         batchSize: 10,
