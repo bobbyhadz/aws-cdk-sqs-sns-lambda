@@ -15,7 +15,7 @@ export class CdkStarterStack extends cdk.Stack {
     const dlqLambda = new NodejsFunction(this, 'dlq-lambda', {
       memorySize: 1024,
       timeout: cdk.Duration.seconds(5),
-      runtime: lambda.Runtime.NODEJS_14_X,
+      runtime: lambda.Runtime.NODEJS_16_X,
       handler: 'main',
       entry: path.join(__dirname, `/../src/dlq-lambda/index.ts`),
     });
@@ -47,7 +47,7 @@ export class CdkStarterStack extends cdk.Stack {
     const myLambda = new NodejsFunction(this, 'my-lambda', {
       memorySize: 1024,
       timeout: cdk.Duration.seconds(5),
-      runtime: lambda.Runtime.NODEJS_14_X,
+      runtime: lambda.Runtime.NODEJS_16_X,
       handler: 'main',
       entry: path.join(__dirname, `/../src/my-lambda/index.ts`),
     });
